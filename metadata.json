@@ -1,0 +1,6 @@
+{
+  "name": "Suivi Hydratation",
+  "description": "Une application de suivi d’hydratation avec un thème sombre élégant, des accents turquoise fluorescent et un effet néon dynamique.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
