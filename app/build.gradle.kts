@@ -1,5 +1,6 @@
 import com.google.gms.googleservices.GoogleServicesPlugin.MissingGoogleServicesStrategy
-
+import org.gradle.process.ExecOperations
+import javax.inject.Inject
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.compose)
@@ -133,4 +134,42 @@ dependencies {
   debugImplementation(libs.androidx.compose.ui.tooling)
   "ksp"(libs.androidx.room.compiler)
   "ksp"(libs.moshi.kotlin.codegen)
+}
+// Génère automatiquement le debug.keystore s'il n'existe pas encore,
+// pour éviter d'avoir à lancer keytool manuellement après chaque clone.
+// Compatible avec le Configuration Cache de Gradle.
+abstract class GenerateDebugKeystoreTask : DefaultTask() {
+  @get:Inject
+  abstract val execOperations: ExecOperations
+  @get:OutputFile
+  abstract val keystoreFile: RegularFileProperty
+  @TaskAction
+  fun generate() {
+    val file = keystoreFile.get().asFile
+    if (file.exists()) return
+    val javaHome = System.getProperty("java.home")
+    val isWindows = System.getProperty("os.name").lowercase().contains("win")
+    val keytoolPath = if (isWindows) "$javaHome/bin/keytool.exe" else
+      "$javaHome/bin/keytool"
+    execOperations.exec {
+      commandLine(
+        keytoolPath, "-genkey", "-v",
+        "-keystore", file.absolutePath,
+        "-storepass", "android",
+        "-alias", "androiddebugkey",
+        "-keypass", "android",
+        "-keyalg", "RSA",
+        "-keysize", "2048",
+        "-validity", "10000",
+        "-dname", "CN=Android Debug,O=Android,C=US"
+      )
+    }
+    println("debug.keystore généré automatiquement.")
+  }
+}
+tasks.register<GenerateDebugKeystoreTask>("generateDebugKeystore") {
+  keystoreFile.set(layout.projectDirectory.file("../debug.keystore"))
+}
+tasks.matching { it.name == "validateSigningDebug" }.configureEach {
+  dependsOn("generateDebugKeystore")
 }
