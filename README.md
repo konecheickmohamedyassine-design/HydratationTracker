@@ -1,4 +1,4 @@
-# 💧 Hydration Tracker (Suivi Hydratation)
+#  Hydration Tracker (Suivi Hydratation)
 
 Projet réalisé dans le cadre du programme **LPRGL3A** à PIGIER Côte d'Ivoire.
 
