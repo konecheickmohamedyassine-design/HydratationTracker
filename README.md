@@ -33,11 +33,11 @@ Versions imposées par le professeur (voir `gradle/libs.versions.toml`) :
 
 ## Comment lancer le projet chez toi
 
-1. **Clone le dépôt **
+1. Clone le dépôt 
 
 2. **Ouvre le projet dans Android Studio.**
 
-3. **Laisse Gradle synchroniser.** Le fichier `debug.keystore`, nécessaire pour signer l'app en mode debug, se **génère automatiquement tout seul** au premier build — pas besoin de commande manuelle. (Si ça t'intéresse de savoir comment, regarde `TROUBLESHOOTING.md`.)
+3. **Laisse Gradle synchroniser.** Le fichier `debug.keystore`, nécessaire pour signer l'app en mode debug, se **génère automatiquement tout seul** au premier build — pas besoin de commande manuelle. (Si ça t'intéresse de savoir comment, regarde `Documentation.pdf`.)
 
 4. **Lance l'app** (Run) sur un émulateur ou ton téléphone.
 
